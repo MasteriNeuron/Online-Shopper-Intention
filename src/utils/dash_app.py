@@ -2,8 +2,11 @@ from dash import Dash, html, dcc
 import plotly.express as px
 import pandas as pd
 from src.logger.logs import setup_logger
-
+import os
 logger = setup_logger()
+BASE_DIR = os.path.dirname(__file__)   # directory where the script is located
+file_path = os.path.join(BASE_DIR, "datasets", "processed", "clean.csv")
+
 
 def create_dash_app(server):
     logger.info("Initializing Dash app at /eda/")
@@ -11,7 +14,7 @@ def create_dash_app(server):
     
     # Load Data
     try:
-        df = pd.read_csv(r'C:\Users\drsnc\Desktop\PW-Projects\online_shoppers_intention\datasets\processed\clean.csv')
+        df = pd.read_csv(file_path)
         logger.info("Successfully loaded clean.csv")
     except Exception as e:
         logger.error(f"Failed to load clean.csv: {str(e)}")
