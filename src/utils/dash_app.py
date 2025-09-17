@@ -7,6 +7,7 @@ import yaml
 logger = setup_logger()
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))  
+logger.info(CURRENT_DIR)
 CONFIG_PATH = os.path.join(CURRENT_DIR, "config", "config.yaml")
 
 with open(CONFIG_PATH, "r") as f:
