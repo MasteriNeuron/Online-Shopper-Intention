@@ -3,6 +3,7 @@ pandas==2.2.2
 numpy==1.26.4
 scikit-learn==1.4.2
 imbalanced-learn==0.14.0
+matplotlib
 plotly==5.15.0
 dash==2.14.0
 dash-bootstrap-components==1.4.1
