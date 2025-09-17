@@ -4,15 +4,7 @@ import pandas as pd
 from src.logger.logs import setup_logger
 import os
 import yaml
-from src.config.config import load_config
 logger = setup_logger()
-
-config = load_config()
-
-# Dataset path
-PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-processed_dir = os.path.join(PROJECT_ROOT, config["data"]["processed_dir"])
-file_path = os.path.join(processed_dir, "clean.csv")
 
 def create_dash_app(server):
     logger.info("Initializing Dash app at /eda/")
@@ -20,6 +12,7 @@ def create_dash_app(server):
     
     # Load Data
     try:
+        file_path='datasets/processed/clean.csv'
         df = pd.read_csv(file_path)
         logger.info("Successfully loaded clean.csv")
     except Exception as e:
