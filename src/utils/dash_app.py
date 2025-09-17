@@ -6,11 +6,9 @@ import os
 import yaml
 logger = setup_logger()
 
-# Get absolute path to config.yaml
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))  # goes up from src/
-CONFIG_PATH = os.path.join(BASE_DIR, "src", "config", "config.yaml")
+CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))  
+CONFIG_PATH = os.path.join(CURRENT_DIR, "config", "config.yaml")
 
-# Load config.yaml
 with open(CONFIG_PATH, "r") as f:
     config = yaml.safe_load(f)
 
