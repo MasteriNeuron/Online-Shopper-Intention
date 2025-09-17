@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Commerce Revenue Dashboard</title>
+    <style>
+        body {
+            background-color: #F8C8DC;
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        h1 {
+            color: #C72C48;
+            padding: 15px;
+        }
+        .navbar {
+            background-color: #C72C48;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+        }
+        .navbar a:hover {
+            text-decoration: underline;
+        }
+        iframe {
+            width: 100%;
+            height: 800px;
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .fallback, .error {
+            color: #C72C48;
+            font-size: 18px;
+        }
+        @media (max-width: 768px) {
+            iframe {
+                height: 600px;
+            }
+        }
+    </style>
+    <script>
+        window.onload = function() {
+            const iframe = document.getElementById('eda-iframe');
+            iframe.onerror = function() {
+                document.getElementById('fallback').style.display = 'block';
+                iframe.style.display = 'none';
+            };
+        };
+    </script>
+</head>
+<body>
+    <div class="navbar">
+        <a href="/home">Home</a>
+        <a href="/train">Train Model</a>
+        <a href="/predict">Predict</a>
+        <a href="/eda">EDA Dashboard</a>
+    </div>
+    <div class="container">
+        <h1>E-Commerce Revenue Dashboard</h1>
+        <p>Explore insights from the Online Shoppers Purchasing Intention dataset.</p>
+        {% if error %}
+            <div class="error">{{ error }}</div>
+        {% else %}
+            <iframe id="eda-iframe" src="/eda/" title="EDA Dashboard"></iframe>
+            <div id="fallback" class="fallback" style="display: none;">
+                <p>Failed to load the dashboard. Please check if the server is running or contact support.</p>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>

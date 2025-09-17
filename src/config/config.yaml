@@ -1,0 +1,12 @@
+data:
+  raw_url: "datasets/raw/online_shoppers_intention.csv"
+  raw_dir: "datasets/raw"
+  processed_dir: "datasets/processed"
+  model_dir: "models"  # Added model_dir for consistency
+preprocessing:
+  test_size: 0.2
+  random_state: 42
+model:
+  n_estimators: 100
+  max_depth: 5
+  learning_rate: 0.1

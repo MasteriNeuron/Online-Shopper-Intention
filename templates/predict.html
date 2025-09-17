@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PWSkills Mini-Hackathon: Predict Session Revenue</title>
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Ubuntu:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.11/typed.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        /* Import Google Fonts for navbar and footer */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Ubuntu:wght@400;500;700&display=swap');
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            text-decoration: none;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+        /* General Styling */
+        body {
+            font-family: 'popine', Times, serif;
+            font-size: 16px;
+        }
+        .header-bg {
+            background-color: #45cac7;
+            border-bottom: 2px solid #2e7d32;
+            margin-top: 80px; /* Added to account for fixed navbar */
+        }
+        .main-section {
+            background-color:#0a6673;
+            padding: 3rem 0;
+        }
+        .accessibility-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: #45cac7;
+            border: 1px solid #ccc;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            z-index: 1000;
+            font-family: 'Open Sans', sans-serif;
+            display: none;
+        }
+        .accessibility-btn:hover + .accessibility-menu, .accessibility-menu:hover {
+            display: block;
+        }
+        h1, h2 {
+            font-family: 'Roboto', sans-serif;
+            font-weight: 700;
+        }
+   .navbar .logo a,
+        .navbar .menu li a {
+                text-decoration: none !important;
+            }
+
+            .navbar .logo a:hover,
+            .navbar .menu li a:hover {
+                text-decoration: none !important;
+            }
+
+
+        .nav-link {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+        }
+        p, ul, li, label, input, select {
+            font-family: 'Times New Roman', Times, serif;
+            text-align: justify;
+        }
+        .header-logos {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .ctl {
+            width: 100%;
+            padding: 0.6rem 0.75rem;
+            border-radius: 0.5rem;
+            background: #f1f5f9;
+            color: #1a202c;
+            border: 1px solid #cbd5e1;
+        }
+        .ctl:focus {
+            outline: none;
+            border-color: #60a5fa;
+            box-shadow: 0 0 0 3px rgba(59,130,246,0.35);
+        }
+        .btn-primary {
+            background: linear-gradient(90deg, #06b6d4, #22c55e);
+            color: #fff;
+            border: none;
+            padding: 0.7rem 1.2rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        .btn-secondary {
+            background: #64748b;
+            color: #fff;
+            border: none;
+            padding: 0.7rem 1.2rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .prediction {
+            background: rgba(216, 218, 224, 0.55);
+            border: 1px solid rgba(211, 215, 221, 0.8);
+            border-radius: 0.75rem;
+            padding: 1rem;
+        }
+        .subtle {
+            color: #475569;
+        }
+        .hidden {
+            display: none;
+        }
+        .prediction-yes {
+            color: #22c55e;
+        }
+        .prediction-no {
+            color: #ef4444;
+        }
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        /* Navbar Styling - Updated to match train.html */
+        .navbar {
+            position: fixed;
+            width: 100%;
+            z-index: 999;
+            padding: 30px 0;
+            background: #fff;
+            font-family: 'Ubuntu', sans-serif;
+            transition: all 0.3s ease;
+        }
+        .navbar.sticky {
+            padding: 15px 0;
+            background: #ff0000;
+        }
+        .navbar .max-width {
+            max-width: 1300px;
+            padding: 0 80px;
+            margin: auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .navbar .logo a {
+            color: #000;
+            font-size: 35px;
+            font-weight: 600;
+        }
+        .navbar .logo a span {
+            color: #0863cb;
+            transition: all 0.3s ease;
+        }
+        .navbar.sticky .logo a {
+            color: #fff;
+        }
+        .navbar.sticky .logo a span {
+            color: #fff;
+        }
+        .navbar .menu li {
+            list-style: none;
+            display: inline-block;
+        }
+        .navbar .menu li a {
+            display: block;
+            color: #000;
+            font-size: 18px;
+            font-weight: 500;
+            margin-left: 25px;
+            transition: color 0.3s ease;
+        }
+        .navbar .menu li a:hover {
+            color: #ff0000;
+        }
+        .navbar.sticky .menu li a {
+            color: #fff;
+        }
+        .navbar.sticky .menu li a:hover {
+            color: #fff;
+        }
+        .navbar .menu li a.special {
+            background: #ff0000;
+            padding: 8px 16px;
+            border-radius: 6px;
+            border: 2px solid #ff0000;
+            color: #fff;
+            transition: all 0.3s ease;
+        }
+        .navbar .menu li a.special:hover {
+            background: none;
+            color: #ff0000;
+        }
+        .menu-btn {
+            color: #000;
+            font-size: 23px;
+            cursor: pointer;
+            display: none;
+        }
+        .navbar.sticky .menu-btn {
+            color: #fff;
+        }
+        /* Scroll-Up Button */
+        .scroll-up-btn {
+            position: fixed;
+            height: 45px;
+            width: 42px;
+            background: #ff0000;
+            right: 30px;
+            bottom: 10px;
+            text-align: center;
+            line-height: 45px;
+            color: #fff;
+            z-index: 9999;
+            font-size: 30px;
+            border-radius: 6px;
+            cursor: pointer;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+        .scroll-up-btn.show {
+            bottom: 30px;
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .scroll-up-btn:hover {
+            filter: brightness(90%);
+        }
+        /* Footer */
+        footer {
+            background: #010005;
+            padding: 20px 23px;
+            color: #fff;
+            text-align: center;
+            font-family: 'Poppins', sans-serif;
+        }
+        .footer-container {
+            background: #0c0c0c;
+            padding: 25px;
+        }
+        .socialmediaicon {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .socialmediaicon a {
+            padding: 10px;
+            background: #fff;
+            margin: 10px;
+            border-radius: 50%;
+        }
+        .navbar .menu li a {
+            font-weight: bold;
+        }
+
+        .socialmediaicon a i {
+            font-size: 2em;
+            color: #000;
+            opacity: 0.9;
+        }
+        .socialmediaicon a:hover {
+            background: #111;
+            transition: 0.5s;
+        }
+        .socialmediaicon a:hover i {
+            color: #fff;
+            transition: 0.5s;
+        }
+        .footerbottom p {
+            color: #fff;
+        }
+        .footerbottom span {
+            color: #f2f0f0;
+        }
+        /* Responsive Design for Navbar */
+        @media (max-width: 947px) {
+            .menu-btn {
+                display: block;
+                z-index: 999;
+            }
+            .menu-btn i.active:before {
+                content: "\f00d";
+            }
+            .navbar .menu {
+                position: fixed;
+                height: 100vh;
+                width: 100%;
+                left: -100%;
+                top: 0;
+                background: #111;
+                text-align: center;
+                padding-top: 80px;
+                transition: all 0.3s ease;
+            }
+            .navbar .menu.active {
+                left: 0;
+            }
+            .navbar .menu li {
+                display: block;
+            }
+            .navbar .menu li a {
+                display: inline-block;
+                margin: 20px 0;
+                font-size: 25px;
+            }
+            .navbar .max-width {
+                padding: 0 50px;
+            }
+        }
+        @media (max-width: 690px) {
+            .navbar .max-width {
+                padding: 0 23px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="scroll-up-btn">
+        <i class="fas fa-angle-up"></i>
+    </div>
+    <nav class="navbar">
+        <div class="max-width">
+            <div class="logo"><a href="/home">PW<span>Skills</span></a></div>
+            <ul class="menu">
+                <li><a href="/home" class="menu-btn">Home</a></li>
+                <li><a href="#problem-statement" class="menu-btn">Problem Statement</a></li>
+                <li><a href="#dataset" class="menu-btn">Dataset</a></li>
+                <li><a href="#tech-stack" class="menu-btn">Tech Stack</a></li>
+                <li><a href="/eda" class="menu-btn special">EDA Dashboard</a></li>
+                <li><a href="/train" class="menu-btn special">Train Model</a></li>
+                <li><a href="/predict" class="menu-btn special">Predict</a></li>
+            </ul>
+            <div class="menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+    
+    
+    <!-- Main Content: Prediction Section -->
+    <main id="skipCont" class="main-section">
+        <div class="container mx-auto px-4 py-8">
+            <h1 class="text-3xl text-green-800 mb-6 text-center">Predict Session Revenue</h1>
+            <p class="text-xl text-white mb-4 text-justify">
+                Use the form below to predict whether an online shopping session will generate revenue based on user behavior and session attributes.
+            </p>
+            <div class="shadow rounded-lg p-6" style="background-color: #f0e2ec;">
+                <h2 class="text-2xl text-blue-700 mb-4 text-center">Enter Session Details</h2>
+                <form id="predictForm" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div>
+                        <label class="block mb-2 text-lg ">Administrative Pages</label>
+                        <input class="ctl" type="number" name="Administrative" value="0" required />
+                    </div>
+                    <div>
+                        <label class="block mb-2 text-base ">Administrative Duration (s)</label>
+                        <input class="ctl" type="number" step="0.01" name="Administrative_Duration" value="0.0" required />
+                    </div>
+                    <div>
+                        <label class="block mb-2 text-base ">Informational Pages</label>
+                        <input class="ctl" type="number" name="Informational" value="0" required />
+                    </div>
+                    <div>
+                        <label class="block mb-2 text-base">Informational Duration (s)</label>
+                        <input class="ctl" type="number" step="0.01" name="Informational_Duration" value="0.0" required />
+                    </div>
+                    <div>
+                        <label class="block mb-2 text-base">Product Related Pages</label>
+                        <input class="ctl" type="number" name="ProductRelated" value="1" required />
+                    </div>
+                    <div>
+                        <label class="block mb-2 text-base">Product Related Duration (s)</label>
+                        <input class="ctl" type="number" step="0.01" name="ProductRelated_Duration" value="0.0" required />
+                    </div>
+                    <div>
+                        <label class="block mb-2 text-base">Bounce Rate</label>
+                        <input class="ctl" type="number" step="0.01" name="BounceRates" value="0.2" required />
+                    </div>
+                    <div>
+                        <label class="block mb-2 text-base">Exit Rate</label>
+                        <input class="ctl" type="number" step="0.01" name="ExitRates" value="0.2" required />
+                    </div>
+                    <div>
+                        <label class="block mb-2 text-base">Page Values</label>
+                        <input class="ctl" type="number" step="0.01" name="PageValues" value="0.0" required />
+                    </div>
+                    <div>
+                        <label class="block mb-2 text-base">Special Day Proximity</label>
+                        <input class="ctl" type="number" step="0.01" name="SpecialDay" value="0.0" required />
+                    </div>
+                    <div>
+                        <label class="block mb-2 text-base">Operating System</label>
+                        <input class="ctl" type="number" name="OperatingSystems" value="1" required />
+                    </div>
+                    <div>
+                        <label class="block mb-2 text-base">Browser</label>
+                        <input class="ctl" type="number" name="Browser" value="1" required />
+                    </div>
+                    <div>
+                        <label class="block mb-2 text-base">Region</label>
+                        <input class="ctl" type="number" name="Region" value="1" required />
+                    </div>
+                    <div>
+                        <label class="block mb-2 text-base">Traffic Type</label>
+                        <input class="ctl" type="number" name="TrafficType" value="1" required />
+                    </div>
+                    <div>
+                        <label class="block mb-2 text-base">Weekend (0 or 1)</label>
+                        <input class="ctl" type="number" min="0" max="1" name="Weekend" value="0" required />
+                    </div>
+                    <div>
+                        <label class="block mb-2 text-base">Month</label>
+                        <select class="ctl" name="Month" required>
+                            <option value="Feb">February</option>
+                            <option value="Mar">March</option>
+                            <option value="May">May</option>
+                            <option value="Jun">June</option>
+                            <option value="Jul">July</option>
+                            <option value="Aug" selected>August</option>
+                            <option value="Sep">September</option>
+                            <option value="Oct">October</option>
+                            <option value="Nov">November</option>
+                            <option value="Dec">December</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block mb-2 text-base">Visitor Type</label>
+                        <select class="ctl" name="VisitorType" required>
+                            <option value="Returning_Visitor" selected>Returning Visitor</option>
+                            <option value="New_Visitor">New Visitor</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="md:col-span-3 flex justify-end gap-3 pt-2">
+                        <button type="submit" id="predictBtn" class="btn-primary">
+                            <span id="predictText">Predict</span>
+                            <span id="predictSpinner" class="hidden loading"></span>
+                        </button>
+                        <button type="button" id="clearBtn" class="btn-secondary">Clear</button>
+                    </div>
+                </form>
+                <div class="prediction mt-6 hidden" id="predictionContainer">
+                    <h3 class="text-lg text-green-700 mb-1 text-center">Predicted Session Outcome</h3>
+                    <div class="flex items-end gap-3 justify-center">
+                        <p id="predictionResult" class="text-3xl font-extrabold">N/A</p>
+                        <span id="predictionNote" class="text-xs subtle"></span>
+                    </div>
+                    <p class="text-xs mt-2 subtle text-center">This prediction is produced by the trained model.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="socialmediaicon">
+                <a href="https://www.facebook.com/pwskills" target="_blank" title="Facebook" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://x.com/pwskills" target="_blank" title="Twitter" rel="noopener noreferrer"><i class="fab fa-twitter"></i></a>
+                <a href="https://pwskills.com/" target="_blank" title="PWSkills Website" rel="noopener noreferrer"><i class="fas fa-globe"></i></a>
+                <a href="https://swachhbharatmission.ddws.gov.in/" target="_blank" title="Swachh Bharat Mission" rel="noopener noreferrer"><i class="fas fa-leaf"></i></a>
+            </div>
+        </div>
+        <div class="footerbottom">
+            <p>&copy; 2025 PWSkills. All rights reserved. | Designed by <span class="design">PWSkills</span></p>
+        </div>
+    </footer>
+    <script>
+        $(document).ready(function(){
+            $(window).scroll(function(){
+                // Sticky navbar
+                if(this.scrollY > 20){
+                    $('.navbar').addClass("sticky");
+                } else {
+                    $('.navbar').removeClass("sticky");
+                }
+                // Scroll-up button show/hide
+                if(this.scrollY > 500){
+                    $('.scroll-up-btn').addClass("show");
+                } else {
+                    $('.scroll-up-btn').removeClass("show");
+                }
+            });
+            // Slide-up
+            $('.scroll-up-btn').click(function(){
+                $('html').animate({scrollTop: 0});
+                $('html').css("scrollBehavior", "auto");
+            });
+            $('.navbar .menu li a').click(function(){
+                $('html').css("scrollBehavior", "smooth");
+            });
+            // Toggle menu/navbar
+            $('.menu-btn').click(function(){
+                $('.navbar .menu').toggleClass("active");
+                $('.menu-btn i').toggleClass("active");
+            });
+            // Accessibility toggle functionality
+            $('.accessibility-btn').click(function() {
+                $('.accessibility-menu').toggle();
+            });
+        });
+        
+        // Prediction functionality
+        const form = document.getElementById('predictForm');
+        const predictBtn = document.getElementById('predictBtn');
+        const predictText = document.getElementById('predictText');
+        const predictSpinner = document.getElementById('predictSpinner');
+        const clearBtn = document.getElementById('clearBtn');
+        const resultEl = document.getElementById('predictionResult');
+        const noteEl = document.getElementById('predictionNote');
+        const predictionContainer = document.getElementById('predictionContainer');
+        
+        function setLoading(loading) {
+            if (loading) {
+                predictText.classList.add('hidden');
+                predictSpinner.classList.remove('hidden');
+                predictBtn.disabled = true;
+            } else {
+                predictText.classList.remove('hidden');
+                predictSpinner.classList.add('hidden');
+                predictBtn.disabled = false;
+            }
+        }
+        
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            noteEl.textContent = '';
+            setLoading(true);
+            
+            try {
+                const formData = new FormData(form);
+                const data = Object.fromEntries(formData.entries());
+                
+                // Convert numeric values to appropriate types
+                for (const key in data) {
+                    if (key !== 'Month' && key !== 'VisitorType') {
+                        data[key] = parseFloat(data[key]);
+                    }
+                }
+                
+                const res = await fetch('/predict', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                if (res.ok) {
+                    const response = await res.json();
+                    
+                    // Check if the response has the expected structure
+                    if (response.prediction !== undefined && response.probability !== undefined) {
+                        // Display prediction - use the correct probability value
+                        const prediction = response.prediction;
+                        const probabilityArray = response.probability;
+                        
+                        // Get the probability of the predicted class
+                        const probability = prediction === 0 ? probabilityArray[0] : probabilityArray[1];
+                        
+                        resultEl.textContent = prediction === 1 ? 'Yes' : 'No';
+                        resultEl.className = prediction === 1 ? 
+                            'text-3xl font-extrabold prediction-yes' : 
+                            'text-3xl font-extrabold prediction-no';
+                        noteEl.textContent = `(Probability: ${Math.round(probability * 100)}%)`;
+                        predictionContainer.classList.remove('hidden');
+                    } else if (response.revenue_prediction !== undefined) {
+                        // Handle alternative response format
+                        const prediction = response.revenue_prediction;
+                        const probability = response.probability_1 || 0;
+                        
+                        resultEl.textContent = prediction === 1 ? 'Yes' : 'No';
+                        resultEl.className = prediction === 1 ? 
+                            'text-3xl font-extrabold prediction-yes' : 
+                            'text-3xl font-extrabold prediction-no';
+                        noteEl.textContent = `(Probability: ${Math.round(probability * 100)}%)`;
+                        predictionContainer.classList.remove('hidden');
+                    } else {
+                        throw new Error('Unexpected response format from server');
+                    }
+                } else {
+                    const errorText = await res.text();
+                    throw new Error(`Server returned ${res.status}: ${errorText}`);
+                }
+            } catch (err) {
+                resultEl.textContent = 'Error';
+                noteEl.textContent = '(prediction failed)';
+                predictionContainer.classList.remove('hidden');
+                console.error('Prediction error:', err);
+            } finally {
+                setLoading(false);
+            }
+        });
+        
+        clearBtn.addEventListener('click', () => {
+            form.reset();
+            predictionContainer.classList.add('hidden');
+        });
+    </script>
+</body>
+</html>
