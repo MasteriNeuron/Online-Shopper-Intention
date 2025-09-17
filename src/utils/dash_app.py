@@ -3,10 +3,20 @@ import plotly.express as px
 import pandas as pd
 from src.logger.logs import setup_logger
 import os
+import yaml
 logger = setup_logger()
-BASE_DIR = os.path.dirname(__file__)   # directory where the script is located
-file_path = os.path.join(BASE_DIR, "datasets", "processed", "clean.csv")
 
+# Get absolute path to config.yaml
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))  # goes up from src/
+CONFIG_PATH = os.path.join(BASE_DIR, "src", "config", "config.yaml")
+
+# Load config.yaml
+with open(CONFIG_PATH, "r") as f:
+    config = yaml.safe_load(f)
+
+# Access values
+processed_dir = config["data"]["processed_dir"]
+file_path = os.path.join(processed_dir, "clean.csv")
 
 def create_dash_app(server):
     logger.info("Initializing Dash app at /eda/")
