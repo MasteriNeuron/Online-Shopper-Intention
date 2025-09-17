@@ -4,17 +4,14 @@ import pandas as pd
 from src.logger.logs import setup_logger
 import os
 import yaml
+from src.config.config import load_config
 logger = setup_logger()
 
-CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))  
-logger.info(CURRENT_DIR)
-CONFIG_PATH = os.path.join(CURRENT_DIR, "config", "config.yaml")
+config = load_config()
 
-with open(CONFIG_PATH, "r") as f:
-    config = yaml.safe_load(f)
-
-# Access values
-processed_dir = config["data"]["processed_dir"]
+# Dataset path
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+processed_dir = os.path.join(PROJECT_ROOT, config["data"]["processed_dir"])
 file_path = os.path.join(processed_dir, "clean.csv")
 
 def create_dash_app(server):
