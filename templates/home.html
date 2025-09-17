@@ -116,6 +116,7 @@
         }
 
         .navbar .logo a {
+            font-size: clamp(20px, 5vw, 35px);
             color: #fff;
             font-size: 35px;
             font-weight: 600;
@@ -210,7 +211,7 @@
             color: #fff;
             min-height: 500px;
             background-size: cover;
-            background-attachment: fixed;
+            background-attachment: scroll;
             font-family: 'Ubuntu', sans-serif;
         }
 
@@ -220,13 +221,13 @@
         }
 
         .home .home-content .text-1 {
-            font-size: 40px;
+            font-size: clamp(24px, 5vw, 40px);
             font-weight: 600;
             margin-bottom: 15px;
         }
 
         .home .home-content .text-2 {
-            font-size: 25px;
+            font-size: clamp(16px, 3vw, 25px);
             margin: 10px 0;
         }
 
@@ -251,6 +252,13 @@
         .home .home-content a:hover {
             color: #ff0000;
             background: none;
+        }
+        .table-responsive {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        .table {
+            min-width: 600px; /* ensures it doesn't shrink too much */
         }
 
         /* 3D Carousel */
@@ -554,9 +562,10 @@
                 padding: 0 50px;
             }
             .carousel-3d .item {
-                width: 350px;
-                height: 450px;
-            }
+            width: 80vw;   /* 80% of viewport width */
+            max-width: 400px;
+            height: auto;  /* keep aspect ratio */
+        }
         }
 
         @media (max-width: 690px) {
