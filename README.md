@@ -16,7 +16,7 @@ It uses a **Flask-based ML application** deployed on **Hugging Face Spaces**, wi
 ---
 
 ## 🚀 Demo
-👉 Try it directly on Hugging Face Spaces (live demo).
+👉 Try it directly on Hugging Face Spaces (https://huggingface.co/spaces/Master89/RevenueRadar).
 
 ---
 
