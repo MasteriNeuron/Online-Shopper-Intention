@@ -9,6 +9,8 @@ pinned: false
 ---
 
 # 🛒 Online Shoppers’ Purchasing Intention Prediction
+<img width="1914" height="834" alt="image" src="https://github.com/user-attachments/assets/e5e80834-016b-4c28-a0f1-7a1e134c76e4" />
+
 
 This project, developed as part of a **PWSkills mini-hackathon**, predicts whether an online shopping session will result in a purchase using the **UCI Online Shoppers Purchasing Intention Dataset**.
 
@@ -24,6 +26,7 @@ The final system achieves an **F1-score of 0.92** and **ROC-AUC of 0.96**, and i
 ---
 
 ## 📑 Introduction
+<img width="1915" height="857" alt="image" src="https://github.com/user-attachments/assets/27f92028-2f8f-4fa3-ae55-8f44af1cbc90" />
 
 E-commerce platforms struggle to convert browsing sessions into purchases. This project leverages **user behavior data (12,330 sessions, 18 features)** to build robust ML pipelines that:
 
