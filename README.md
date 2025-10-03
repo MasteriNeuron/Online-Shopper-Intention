@@ -214,7 +214,7 @@ Special Thanks to **Mr. Shubham Chaudhary** for his valuable contribution to thi
 ## 📧 Contact
 
 For questions, suggestions, or contributions:
-📩 **[shubham.chaudhary@pw.live](mailto:shubham.chaudhary@pw.live)**
+📩 **[[(https://www.linkedin.com/in/shubham-chaudhary1802/)]]**
 
 ---
 
