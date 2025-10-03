@@ -213,8 +213,8 @@ Special Thanks to **Mr. Shubham Chaudhary** for his valuable contribution to thi
 
 ## 📧 Contact
 
-For questions, suggestions, or contributions:
-📩 **[[(https://www.linkedin.com/in/shubham-chaudhary1802/)]]**
+For questions, suggestions, or contributions:  
+📩 [LinkedIn: Shubham Chaudhary](https://www.linkedin.com/in/shubham-chaudhary1802/)  
 
 ---
 
